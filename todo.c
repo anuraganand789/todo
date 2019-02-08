@@ -8,25 +8,40 @@ const char *todoFilePath = "/home/anuraganand/todo.do";
 
 
 //my todo file
-FILE *file;
+FILE *file = NULL;
 
 struct Todo {
   char *todos;
 };
 
 void main(void) {
-  char *sentence =  (char *) malloc(100 * sizeof(char));
-  printf("Enter a choice :- ");
+
+  printf("Enter a choice :- \n");
+  printf("1. Read the todo list.\n");
+  printf("2. Write todo.\n");
+  
   int choice = 0;
-  scanf("%d", &choice); 
-  fgets(sentence, 100, stdin);
-  printf("Sentence %s \n", sentence);
-  int l = strlen(sentence);
-  file = fopen(todoFilePath, "a");
-  if(file) {
-    fwrite(sentence, sizeof(char), l, file);
-    fclose(file);
+  scanf("%d\n", &choice);
+
+  switch(choice) {
+  case 1 :
+    //read the todo list;
+    break;
+  case 2:
+    //write todo
+    file = fopen(todoFilePath, "a");
+    if(file) {
+      char *sentence =  (char *) malloc(100 * sizeof(char));
+      fgets(sentence, 100, stdin);
+      fwrite(sentence, sizeof(char), strlen(sentence), file);
+      fflush(stdout);
+      fclose(file);
+      free(sentence);
+    }
+    
+    break;
   }
-  free(sentence);
+  
+  
   return;
 }
