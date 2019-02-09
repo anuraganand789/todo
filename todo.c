@@ -50,7 +50,10 @@ void main(void) {
 	printWithLineNumber(sentence);
 
 	if(feof(file)) {
-	  printf("\nWe have read entire content of this file.\n\n");
+	  //make this a whlie loop and put all of the code inside it.
+	  //to read big files.
+	  //i will add buffering to prevent from loading all data at once
+	  //	  printf("\nWe have read entire content of this file.\n\n");
 	}
 	
 	free(sentence);
@@ -70,8 +73,13 @@ void main(void) {
       if(file) {
 	char *sentence = (char *) calloc((BUF_SIZE/charSize), charSize);
 	char *s = fgets(sentence, (BUF_SIZE/charSize), stdin);
-	fwrite(sentence, sizeof(char), strlen(sentence), file);
 
+	//If first charachter is new line - then do not add.
+	//prevents an empty line in the todo
+	if(*s != '\n') {
+	  fwrite(sentence, sizeof(char), strlen(sentence), file);
+	}
+	
 	fflush(stdout);
 	free(sentence);
 	fclose(file);
@@ -97,10 +105,10 @@ void main(void) {
 }
 
 void displayMenu(void) {
-  printf("Enter a choice :- \n");
-  printf("1. Read the todo list.\n");
-  printf("2. Write todo.\n");
-  printf("3. Exit\n");
+  printf("Select An Operation :- \n");
+  printf("1. Read Todos.\n");
+  printf("2. Add A Todo.\n");
+  printf("3. Exit.\n");
 }
 
 int lineCount(const char *content) {
