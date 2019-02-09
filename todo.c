@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 //4Kb i guess
 #define BUF_SIZE 4048
 const char *todoFilePath = "/home/anuraganand/todo.do";
+const size_t charSize = sizeof(char);
 
 //my todo file
 FILE *file = NULL;
@@ -17,9 +19,9 @@ struct Todo {
 void displayMenu(void);
 int lineCount(const char *);
 void clearTerminal();
+void printWithLineNumber(const char *);
 
 void main(void) {
-  const size_t charSize = sizeof(char);
 
   while(1) {
     displayMenu();
@@ -43,18 +45,22 @@ void main(void) {
 	unsigned char noOfItemsRead = fread(sentence, charSize, (BUF_SIZE/charSize), file);
 	unsigned char noOfLines = lineCount(sentence);
 	
-	printf("characters %d Lines %d \n", noOfItemsRead, noOfLines);
-	printf("%s\n", sentence);
+	printf("characters %d Lines %d \n\n", noOfItemsRead, noOfLines);
+	
+	printWithLineNumber(sentence);
 
 	if(feof(file)) {
-	  printf("We have read entire content of this file.\n");
+	  printf("\nWe have read entire content of this file.\n\n");
 	}
 	
 	free(sentence);
+	sentence = NULL;
+	
 	fclose(file);
       } else {
 	printf("No todo file is there... Loser..");
       }
+      printf("-----------------------------End--------------------------\n");
       //break from reading from file
       break;
 
@@ -112,4 +118,34 @@ int lineCount(const char *content) {
 void clearTerminal() {
   //Clear the terminal
   printf("\e[1;1H\e[2J");
+}
+
+void printWithLineNumber(const char *content) {
+  if(content) {
+    int lineCount = 1;
+    const char *temp = content;
+    char newLine = '\n';
+    while(*temp) {
+      int numberOfCharachtersBeforeNewLine = strcspn(temp, &newLine);
+      // +1 to make space for a null charachter
+      //size is in Bytes
+      size_t sizeOfCharToBeRead = (numberOfCharachtersBeforeNewLine + 1) * charSize;
+
+      char *line = (char *) malloc(sizeOfCharToBeRead);
+      strncpy(line, temp, sizeOfCharToBeRead);
+
+      //add null at the end - array starts at zero - remember?
+      line[numberOfCharachtersBeforeNewLine] = '\0';
+      
+      //Move temp after '\n'
+      //+1 to move at the position of \n
+      //+1 to move to next charachter after the \n
+      temp = temp + numberOfCharachtersBeforeNewLine + 1;
+
+      printf("%d. %s\n", lineCount, line);
+      //      printf("----remaining----\n");
+      //      printf("%s\n", temp);
+      ++lineCount;
+    }
+  }
 }
