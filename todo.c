@@ -10,9 +10,13 @@ FILE *file = NULL;
 
 struct Todo {
   char *todos;
+  int lines;
+  int chars;
 };
 
 void displayMenu(void);
+int lineCount(const char *);
+
 
 void main(void) {
   const size_t charSize = sizeof(char);
@@ -27,10 +31,12 @@ void main(void) {
       //read the todo list;
       file = fopen(todoFilePath, "r");
       if(file) {
-	char *sentence = (char *) calloc(1024, charSize);
+	char *sentence = (char *) calloc((BUF_SIZE/charSize), charSize);
 	//reads in block of 4Kb
 	unsigned int noOfItemsRead = fread(sentence, charSize, (BUF_SIZE/charSize), file);
-	printf("characters %d\n", noOfItemsRead);
+	int noOfLines = lineCount(sentence);
+	
+	printf("characters %d Lines %d \n", noOfItemsRead, noOfLines);
 	printf("%s\n", sentence);
 	fflush(stdout);
 	if(feof(file)) {
@@ -77,9 +83,20 @@ void main(void) {
 }
 
 void displayMenu(void) {
-
   printf("Enter a choice :- \n");
   printf("1. Read the todo list.\n");
   printf("2. Write todo.\n");
   printf("3. Exit\n");
+}
+
+int lineCount(const char *content) {
+  int count = 0;
+  const char *t = content;
+  while(*t) {
+    if(*t == '\n') {
+      ++count;
+    }
+    ++t;
+  }
+  return count;
 }
