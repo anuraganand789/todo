@@ -16,7 +16,7 @@ struct Todo {
 
 void displayMenu(void);
 int lineCount(const char *);
-
+void clearTerminal();
 
 void main(void) {
   const size_t charSize = sizeof(char);
@@ -28,6 +28,9 @@ void main(void) {
 
     //discard the return charachter
     getchar();
+
+    //Make Terminal Look Fresh again
+    clearTerminal();
     
     switch(choice) {
     case '1' :
@@ -88,7 +91,6 @@ void main(void) {
 }
 
 void displayMenu(void) {
-  
   printf("Enter a choice :- \n");
   printf("1. Read the todo list.\n");
   printf("2. Write todo.\n");
@@ -105,4 +107,9 @@ int lineCount(const char *content) {
     ++t;
   }
   return count;
+}
+
+void clearTerminal() {
+  //Clear the terminal
+  printf("\e[1;1H\e[2J");
 }
