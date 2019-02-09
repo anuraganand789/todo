@@ -26,19 +26,23 @@ void main(void) {
 
     char choice = getchar();
 
+    //discard the return charachter
+    getchar();
+    
     switch(choice) {
     case '1' :
       //read the todo list;
       file = fopen(todoFilePath, "r");
       if(file) {
 	char *sentence = (char *) calloc((BUF_SIZE/charSize), charSize);
+
 	//reads in block of 4Kb
-	unsigned int noOfItemsRead = fread(sentence, charSize, (BUF_SIZE/charSize), file);
-	int noOfLines = lineCount(sentence);
+	unsigned char noOfItemsRead = fread(sentence, charSize, (BUF_SIZE/charSize), file);
+	unsigned char noOfLines = lineCount(sentence);
 	
 	printf("characters %d Lines %d \n", noOfItemsRead, noOfLines);
 	printf("%s\n", sentence);
-	fflush(stdout);
+
 	if(feof(file)) {
 	  printf("We have read entire content of this file.\n");
 	}
@@ -53,8 +57,6 @@ void main(void) {
 
     case '2':
       //write todo
-      //get rid of newlines
-      getchar();
       file = fopen(todoFilePath, "a");
       if(file) {
 	char *sentence = (char *) calloc((BUF_SIZE/charSize), charSize);
@@ -75,6 +77,9 @@ void main(void) {
       printf("Application Closed.\n");
       return;
 
+    default:
+      printf("Invalid Choice. Please select one of options from menu.\n");
+      break;
       //End of switch-case
     }
     //end of while(1) loop
@@ -83,6 +88,7 @@ void main(void) {
 }
 
 void displayMenu(void) {
+  
   printf("Enter a choice :- \n");
   printf("1. Read the todo list.\n");
   printf("2. Write todo.\n");
