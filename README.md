@@ -1,2 +1,2 @@
 # todo
-A todo app in C language using ncurses.
+A todo app in C language.
