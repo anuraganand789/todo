@@ -146,7 +146,6 @@ void printWithLineNumber(const char *content) {
       line[numberOfCharachtersBeforeNewLine] = '\0';
       
       //Move temp after '\n'
-      //+1 to move at the position of \n
       //+1 to move to next charachter after the \n
       temp = temp + numberOfCharachtersBeforeNewLine + 1;
 
