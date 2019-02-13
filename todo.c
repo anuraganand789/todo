@@ -228,8 +228,13 @@ void addNewTodo() {
 
 	  struct Todo *newTodo = createTodoObject();
 	  newTodo->todo = sentence;
-	  todoTail->nextTodo = newTodo;
-	  todoTail = newTodo;
+
+	  if(todoHead == NULL) {
+	    todoHead = todoTail = newTodo;
+	  } else {
+	    todoTail->nextTodo = newTodo;
+	    todoTail = newTodo;
+	  }
 	}
 	
 	fflush(stdout);
