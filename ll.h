@@ -17,7 +17,7 @@ struct Todo *todoTail;
 void update();
 void save();
 void displayTodoList(struct Todo *);
-void parseTodoList(const char *);
+void parseTodoList(const char *, int );
 void initTodoList();
 void addNewTodo();
 struct Todo *todoAtLocation(const int);
@@ -88,7 +88,7 @@ void upsertTodoAt(const int index, char *newTodo) {
 	}
       }
       //Increment number of todos - as this is a new addition
-      numberOfTodos = numberOfTodos + 1;
+      ++numberOfTodos;
     }
   }
 }
@@ -105,18 +105,16 @@ struct Todo *todoAtLocation(const int index) {
 }
 
 void displayTodoList(struct Todo *todo) {
-  if(todo && todo->todo) {
     struct Todo *temp = todo;
     int lineNumber = 1;
-    while(temp) {
-      printf("%d. %s\n", lineNumber, temp->todo);
+    while(temp && temp->todo) {
+      printf("%d. %s", lineNumber, temp->todo);
       temp = temp->nextTodo;
       ++lineNumber;
     }
-  }
 }
 
-void parseTodoList(const char *content) {
+void parseTodoList(const char *content, int totalCharsRead) {
   if(content) {
     destroyTodoList(todoHead);
     todoTail = todoHead = NULL;
@@ -125,32 +123,40 @@ void parseTodoList(const char *content) {
     const char *temp = content;
     char newLine = '\n';
 
-    while(*temp) {
+    while(totalCharsRead > 0) {
       struct Todo *todoObject = createTodoObject();
+      char *n = index(temp, '\n');
+      int numberOfCharachtersBeforeNewLine = n - temp;
+      //int numberOfCharachtersBeforeNewLine = strcspn(temp, &newLine);
       
-      int numberOfCharachtersBeforeNewLine = strcspn(temp, &newLine);
-
-      //+1 is to count new-line in number of charachters.
-      //Because, new line is also a charachter.
-      totalCharInTodos = totalCharInTodos + numberOfCharachtersBeforeNewLine + 1;
+      //+1 for newLine
+      int numberOfCharsReadInCurIter = numberOfCharachtersBeforeNewLine + 1;
       
       // +1 to make space for a null charachter
-      size_t sizeOfCharToBeRead = (numberOfCharachtersBeforeNewLine + 1) * charSize;
+      size_t sizeOfCharToBeRead = (numberOfCharsReadInCurIter +1) * charSize;
 
       char *line = (char *) malloc(sizeOfCharToBeRead);
       strncpy(line, temp, sizeOfCharToBeRead);
       //add null at the end - array starts at zero - remember?
-      line[numberOfCharachtersBeforeNewLine] = '\0';
+      line[numberOfCharsReadInCurIter] = '\0';
 
       todoObject->todo = line;
       line = NULL;
       
+      //+1 is to count new-line in number of charachters.
+      //Because, new line is also a charachter.
+      totalCharInTodos = totalCharInTodos + numberOfCharsReadInCurIter;
+      
       //move temp to the start point of next line
-      temp = temp + numberOfCharachtersBeforeNewLine + 1;
+      temp = n + 1;
+      //temp = temp + numberOfCharsReadInCurIter;  
 
       //number of todo goes up by one
       ++numberOfTodos;
 
+      //Total chars remaining
+      totalCharsRead = totalCharsRead - numberOfCharsReadInCurIter;
+      
       if(todoHead == NULL) {
 	//Initialize the head of todo list
 	todoHead = todoObject;
@@ -171,8 +177,8 @@ void parseTodoList(const char *content) {
 	char *sentence = (char *) calloc((BUF_SIZE/charSize), charSize);
 
 	//reads in block of 4Kb
-	totalCharInTodos = fread(sentence, charSize, (BUF_SIZE/charSize), file);
-	parseTodoList(sentence);	
+	int totalCharsRead = fread(sentence, charSize, (BUF_SIZE/charSize), file);
+	parseTodoList(sentence, totalCharsRead);	
 	printf("characters %d Lines %d \n\n", totalCharInTodos, numberOfTodos);
 	
 
@@ -240,7 +246,7 @@ void save() {
   file = fopen(todoFilePath, "w");
   struct Todo *iterate = todoHead;
    while(iterate) {
-    fwrite(iterate->todo, charSize, strlen(iterate->todo) + 1, file);
+     fwrite(iterate->todo, sizeof(char), strlen(iterate->todo), file);
      iterate = iterate->nextTodo;
   }
   fflush(stdout);
