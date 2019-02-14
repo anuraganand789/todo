@@ -21,7 +21,7 @@ char *readString();
 
 
 void displayMenu(void) {
-  // printf("\n\n");
+  printf("\n");
   printf("Select An Operation :- \n");
   printf("1. Read Todos.\n");
   printf("2. Add A Todo.\n");
