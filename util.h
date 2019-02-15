@@ -23,10 +23,11 @@ char *readString();
 void displayMenu(void) {
   printf("\n");
   printf("Select An Operation :- \n");
-  printf("1. Read Todos.\n");
-  printf("2. Add A Todo.\n");
-  printf("3. Update A Todo.\n");
-  printf("4. Exit.\n");
+  printf("1. Read.\n");
+  printf("2. Add.\n");
+  printf("3. Update.\n");
+  printf("4. Delete.\n");
+  printf("5. Exit.\n");
 }
  
 void clearTerminal() {
