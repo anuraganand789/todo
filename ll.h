@@ -120,12 +120,21 @@ struct Todo *todoAtLocation(const int index) {
 }
 
 void displayTodoList(struct Todo *todo) {
-  struct Todo *temp = todo;
-  int lineNumber = 1;
-  while(temp && temp->todo) {
-    printf("%d. %s", lineNumber, temp->todo);
-    temp = temp->nextTodo;
-    ++lineNumber;
+  if(numberOfTodos) {
+    struct Todo *temp = todo;
+    int lineNumber = 1;
+    printf("\e[48;5;017m List Of Todos.\n");
+    //clear the color
+    printf("\e[0m");
+    while(temp && temp->todo) {
+      printf("%d. %s", lineNumber, temp->todo);
+      temp = temp->nextTodo;
+      ++lineNumber;
+    }
+  } else {
+    printf("\e[48;5;022m Todo is empty. Select 1 - to add something to it.\n\n");
+    //clear the color
+    printf("\e[0m");
   }
 }
 
@@ -220,7 +229,10 @@ void addNewTodo() {
   //write todo
   file = fopen(todoFilePath, "a");
   if(file) {
+    printf("\n");
+    printf("Enter New todo below.\n");
     char *sentence = readString();
+
     //If first charachter is new line - then do not add.
     //prevents an empty line in the todo
     if(sentence && *sentence != '\n') {
