@@ -22,12 +22,15 @@ char *readString();
 
 void displayMenu(void) {
   printf("\n");
-  printf("Select An Operation :- \n");
-  printf("1. Read.\n");
-  printf("2. Add.\n");
-  printf("3. Update.\n");
-  printf("4. Delete.\n");
-  printf("5. Exit.\n");
+  printf("\e[48;5;0m Select An Operation :- \n");
+  //reset the color of the line
+  printf("\e[0m");
+  printf("1. Add.\n");
+  printf("2. Update.\n");
+  printf("3. Delete.\n");
+  printf("4. Exit.\n");
+  
+  
 }
  
 void clearTerminal() {
