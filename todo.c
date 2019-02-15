@@ -10,7 +10,7 @@ void main(void) {
 
   while(1) {
     clearTerminal();
-    displayTodoList(todoHead);
+    displayTodoList(todoHead, -1, NULL);
     displayMenu();
 
     char choice = getchar();
@@ -19,7 +19,7 @@ void main(void) {
 
     //Make Terminal Look Fresh again
     clearTerminal();
-    displayTodoList(todoHead);
+    displayTodoList(todoHead, -1, NULL);
     
     switch(choice) {
     default:
@@ -29,7 +29,7 @@ void main(void) {
       addNewTodo();
       break;
     case '2' :
-      update();
+      update("\e[48;5;022m");
       save();
       break;
     case '3':
@@ -39,7 +39,6 @@ void main(void) {
     case '4' :
       //Exit
       clearTerminal();
-      printf("Application Closed.\n");
       return;
       //End of switch-case
     }
