@@ -16,11 +16,11 @@ struct Todo *todoTail;
 
 //util method to be called from main
 void delete();
-void update();
+void update(char *);
 void save();
 
 //Operations is done on entire List
-void displayTodoList(struct Todo *);
+void displayTodoList(struct Todo *, int, char *);
 void destroyTodoList(struct Todo *);
 
 //deals with creation of entire todo list datastructure
@@ -119,7 +119,7 @@ struct Todo *todoAtLocation(const int index) {
   return iterator;
 }
 
-void displayTodoList(struct Todo *todo) {
+void displayTodoList(struct Todo *todo, int index,char *color) {
   if(numberOfTodos) {
     struct Todo *temp = todo;
     int lineNumber = 1;
@@ -127,7 +127,13 @@ void displayTodoList(struct Todo *todo) {
     //clear the color
     printf("\e[0m");
     while(temp && temp->todo) {
-      printf("%d. %s", lineNumber, temp->todo);
+      if(index == lineNumber && color) {
+	printf("%s%d. %s", color, lineNumber, temp->todo);
+	printf("\e[0m");
+      } else {
+	printf("%d. %s", lineNumber, temp->todo);
+      }
+      
       temp = temp->nextTodo;
       ++lineNumber;
     }
@@ -136,6 +142,7 @@ void displayTodoList(struct Todo *todo) {
     //clear the color
     printf("\e[0m");
   }
+  printf("\n");
 }
 
 void parseTodoList(const char *content, int totalCharsRead) {
@@ -250,16 +257,21 @@ void addNewTodo() {
 }
 
 
-void update(){
+void update(char *color){
   printf("\n\n");
   printf("Enter the serial Number of the todo :- ");
 
   int *todoSerialNumber = (int *) calloc(1, sizeof(int));
   scanf("%d", todoSerialNumber);
   getchar();
-  
-  printf("Enter updated todo below.\n");
 
+  //Clear the terminal
+  printf("\e[1;1H\e[2J");
+
+  //redraw the items with selected items as colored
+  displayTodoList(todoHead, *todoSerialNumber, color);
+    
+  printf("Enter updated todo below.\n");
   char *todo  = readString();
   if(todo) {
     upsertTodoAt(*todoSerialNumber, todo);
