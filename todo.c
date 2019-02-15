@@ -9,46 +9,36 @@ void main(void) {
   initTodoList();
 
   while(1) {
+    clearTerminal();
+    displayTodoList(todoHead);
     displayMenu();
 
     char choice = getchar();
-
     //discard the return charachter
     getchar();
 
     //Make Terminal Look Fresh again
     clearTerminal();
+    displayTodoList(todoHead);
     
     switch(choice) {
     default:
       printf("Invalid Choice. Please select one of options from menu.\n");
       break;
-    case '1' :
-       displayTodoList(todoHead);
-      break;
-    case '2':
+    case '1':
       addNewTodo();
-      //break from writing to todo file
-      clearTerminal();
-      displayTodoList(todoHead);
       break;
-    case '3' :
-      displayTodoList(todoHead);
+    case '2' :
       update();
-      clearTerminal();
-      displayTodoList(todoHead);
-      //store in a file
       save();
       break;
-    case '4':
-      displayTodoList(todoHead);
+    case '3':
       delete();
-      clearTerminal();
-      displayTodoList(todoHead);
       save();
       break;
-    case '5' :
+    case '4' :
       //Exit
+      clearTerminal();
       printf("Application Closed.\n");
       return;
       //End of switch-case
