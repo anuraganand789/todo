@@ -1,11 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <dirent.h>
 #include "ll.h"
 
 void main(void) {
   int modified = 0;
   clearTerminal();
+  displayTodoFiles();
+  updateTodoFileName();
+  //  getchar();
   initTodoList();
 
   while(1) {
