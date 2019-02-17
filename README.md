@@ -1,5 +1,6 @@
 # todo
-A todo app in C language.
+A todo app in C language. 
+It supports multiple Todo Lists.
 
 Currently, it supports
 1. Reading of Todos
