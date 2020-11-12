@@ -30,21 +30,16 @@ void main(void) {
       printf("Invalid Choice. Please select one of options from menu.\n");
       break;
     case '1':
-      addNewTodo();
-      break;
+      addNewTodo(); break;
     case '2' :
-      update("\e[48;5;022m");
-      save();
-      break;
+      update("\e[48;5;022m"); save(); break;
     case '3':
-      delete();
-      save();
-      break;
+      delete(); save(); break;
     case '4' :
       //Exit
-      clearTerminal();
-      return;
-      //End of switch-case
+      clearTerminal(); return;
+    case '5' : 
+      displayMenu((); break;
     }
     //end of while(1) loop
   }

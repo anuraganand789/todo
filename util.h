@@ -52,7 +52,7 @@ void chooseTodo() {
     //----Storing the file names with
     //directory names in a multi dimensional array.
     //allocate memory
-        //allocate memory for todo choices
+    //allocate memory for todo choices
     TodoFilesChoices = (struct TodoFiles *) calloc(1, sizeof(struct TodoFiles *));
     TodoFilesChoices->todoFiles = (char **) calloc(fileCount, sizeof(char *));
     TodoFilesChoices->fileCount = fileCount;
