@@ -2,17 +2,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
+#include <stdbool.h>
 #include "ll.h"
 
 void main(void) {
   int modified = 0;
+  begin:
   clearTerminal();
   displayTodoFiles();
   updateTodoFileName();
   //  getchar();
   initTodoList();
 
-  while(1) {
+  while(true) {
     clearTerminal();
     displayTodoList(todoHead, -1, NULL);
     displayMenu();
@@ -37,10 +39,9 @@ void main(void) {
       delete(); save(); break;
     case '4' :
       //Exit
-      clearTerminal(); return;
+      clearTerminal(); break;
     case '5' : 
-       clearTerminal();
-       //displayTodoFiles();
+	goto begin;
         break;
     }
     //end of while(1) loop
