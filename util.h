@@ -1,8 +1,8 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-//4Kb i guess
-const int BUF_SIZE = 4048;
+//4Kb
+const int BUF_SIZE = 4096;
 
 char *todoFilePath = "/home/anuraganand/todo.do";
 char *todoConfigLocation = "/home/anuraganand/.todo.conf";
@@ -119,18 +119,18 @@ void updateTodoFileName() {
     if(TodoFilesChoices != NULL && TodoFilesChoices->fileCount > 0) {
     printf("\n");
     printf("Enter todo Serial Number...\n");
-    int *fileChoice  = (int *) calloc(1, sizeof(int));
-    scanf("%d", fileChoice);
+    int fileChoice;
+    scanf("%d", &fileChoice);
     //get rid of return charachters.
     getchar();
     
     //In case of invalid value set 1 as default value.
-    if(*fileChoice > 0 && *fileChoice <= TodoFilesChoices->fileCount) {
+    if(fileChoice > 0 && fileChoice <= TodoFilesChoices->fileCount) {
       char **iter = TodoFilesChoices->todoFiles;
       //I need to reduce the count by one because
       //array starts from '0'
       //that's why first file name is going to be at location 0 not 1.
-      todoFilePath = *(iter + ((*fileChoice) - 1) );
+      todoFilePath = *(iter + (fileChoice - 1) );
     }
   } else {
     printf("NO todo file available.\n");
@@ -146,8 +146,7 @@ void displayMenu(void) {
   printf("2. Update.\n");
   printf("3. Delete.\n");
   printf("4. Exit.\n");
-  
-  
+  printf("5. Main Menu.\n");
 }
  
 void clearTerminal() {

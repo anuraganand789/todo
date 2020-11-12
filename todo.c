@@ -39,7 +39,9 @@ void main(void) {
       //Exit
       clearTerminal(); return;
     case '5' : 
-      displayMenu((); break;
+       clearTerminal();
+       //displayTodoFiles();
+        break;
     }
     //end of while(1) loop
   }
