@@ -34,17 +34,17 @@ void main(void) {
     case '1':
       addNewTodo(); break;
     case '2' :
-      update("\e[48;5;022m"); save(); break;
+      update("\e[48;5;022m"); 
+      save(); 
+      break;
     case '3':
       delete(); save(); break;
     case '4' :
-      //Exit
-      clearTerminal(); break;
-    case '5' : 
 	goto begin;
-        break;
+    case '5' : 
+	clearTerminal();
+        return;
     }
     //end of while(1) loop
   }
-  return;
 }

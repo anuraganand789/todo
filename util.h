@@ -145,8 +145,8 @@ void displayMenu(void) {
   printf("1. Add.\n");
   printf("2. Update.\n");
   printf("3. Delete.\n");
-  printf("4. Exit.\n");
-  printf("5. Main Menu.\n");
+  printf("4. Main Menu.\n");
+  printf("5. Exit.\n");
 }
  
 void clearTerminal() {
